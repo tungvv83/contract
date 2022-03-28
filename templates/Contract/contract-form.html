@@ -1,0 +1,192 @@
+{% extends 'partials/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}Quản lý hợp đồng{% endblock title %}
+
+{% block extra_css %}
+     <!-- DataTables -->
+     <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+
+     <!-- Responsive datatable examples -->
+     <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+    
+{% block content %}
+        <div class="main-content">
+            <div class="page-content">
+                <!-- start page title -->
+                <div class="page-title-box">
+                    <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                         </div>
+                        <div class="col-sm-6">
+                            <div class="float-end d-none d-sm-block">
+                                <a href="{% url 'create_contract_form' %}" class="btn btn-success">Thêm Hợp đồng mẫu</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- end page title -->    
+                <div class="container-fluid">
+                    <div class="page-content-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="text-center">
+                                                    <p class="font-size-16">Hợp đồng</p>
+                                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                                        <span class="avatar-title rounded-circle bg-soft-primary">
+                                                            <i class="mdi"><img src="{% static 'images/hopdong2.png' %}" alt="" height="40" width="40"></i>
+                                                        </span>
+                                                    </div>
+                                                    <h5 class="font-size-22">58</h5>
+                                                    <div class="progress mt-3" style="height: 4px;">
+                                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="text-center">
+                                                    <p class="font-size-16">Phụ lục hợp đồng</p>
+                                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                                        <span class="avatar-title rounded-circle bg-soft-success">
+                                                            <i class="mdi"><img src="{% static 'images/hopdong3.png' %}" alt="" height="40" width="40"></i>
+                                                        </span>
+                                                    </div>
+                                                    <h5 class="font-size-22">136</h5>
+                                                    <div class="progress mt-3" style="height: 4px;">
+                                                        <div class="progress-bar progress-bar bg-success" role="progressbar"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="card">
+                                    <div class="card-body  pt-0">
+                                        <ul class="nav nav-tabs nav-tabs-custom mb-4">
+                                            <li class="nav-item">
+                                                <a class="nav-link fw-bold p-3 active" href="#">Hợp đồng mẫu</a>
+                                            </li>
+                                            {% comment %} <li class="nav-item">
+                                                <a class="nav-link p-3 fw-bold" href="#">Active</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link p-3 fw-bold" href="#">Unpaid</a>
+                                            </li> {% endcomment %}
+                                        </ul>
+                                        <div class="table-responsive">
+                                            <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th style="width: 20px;">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input" id="ordercheck" onchange="checkAll(this)" name="chk[]">
+                                                                <label class="form-check-label" for="ordercheck">&nbsp;</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>Số hợp đồng</th>
+                                                        <th>Trích yếu</th>
+                                                        <th>Ngày ký</th>
+                                                        <th>Ngày hiệu lực</th>
+                                                        <th>Loại hợp đồng</th>
+                                                        <th>Khách hàng</th>
+                                                        <th>Giá trị hợp đồng</th>
+                                                        <th>Bảo lãnh hợp đồng</th>                                      
+                                                        <th style="width: 120px;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for data in contractform_list %}
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input" id="ordercheck1">
+                                                                <label class="form-check-label" for="ordercheck1">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td><a href="javascript: void(0);" class="text-dark fw-bold">{{ data.name }}</a></td>
+                                                        <td>
+                                                            {{ data.abstract }}
+                                                        </td>
+                                                        <td>{{ data.signing_date|date:"d/m/yy" }}</td>
+                                                        
+                                                        <td>
+                                                            {{ data.value_date|date:"d/m/yy" }}
+                                                        </td>
+                                                        <td>
+                                                            {{ data.typecontract }}
+                                                        </td>
+                                                        <td>
+                                                            {{ data.customer }}
+                                                        </td>
+                                                        <td>
+                                                            {{ data.contract_value }}
+                                                        </td>
+                                                        <td>
+                                                            {{ data.guaranteed_value }}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url 'update_contract_form' data.id %}" class="me-3 text-primary" data-bs-placement="top" title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="#deletecontractform-{{data.id}}" class="text-danger" data-bs-toggle="modal" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Modal HTML -->
+                                {% for data in contractform_list %}
+                                <div id="deletecontractform-{{data.id}}" class="modal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header flex-column">
+                                                <div class="icon-box">
+                                                    <i><img src="{% static 'images/delete.png' %}" alt="" height="60" width="60"></i>
+                                                </div>						
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Bạn có chắc chắn muốn xóa Hợp đồng mẫu này không ?</p>
+                                            </div>
+                                            <div class="modal-footer justify-content-center">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <a href="{% url 'delete_contract_form' data.id %}" type="button" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+{% endblock content %}
+
+{% block extra_javascript %}
+    <!-- Required datatable js -->
+    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    
+    <!-- Responsive examples -->
+    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/ecommerce-datatables.init.js' %}"></script>
+{% endblock extra_javascript %}
