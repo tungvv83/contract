@@ -157,6 +157,7 @@ class Create_contract(LoginRequiredMixin,CreateView):
             return True
         return False 
 
+
 class ContractDetailView(DetailView):
     model = contract
 

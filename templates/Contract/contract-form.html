@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load static %}
 
-{% block title %}Quản lý hợp đồng{% endblock title %}
+{% block title %}Hợp đồng mẫu{% endblock title %}
 
 {% block extra_css %}
      <!-- DataTables -->
@@ -103,7 +103,7 @@
                                                         <th>Loại hợp đồng</th>
                                                         <th>Khách hàng</th>
                                                         <th>Giá trị hợp đồng</th>
-                                                        <th>Bảo lãnh hợp đồng</th>                                      
+                                                        {% comment %} <th>Chuyển hợp đồng</th>                                       {% endcomment %}
                                                         <th style="width: 120px;">Action</th>
                                                     </tr>
                                                 </thead>
@@ -135,9 +135,9 @@
                                                         <td>
                                                             {{ data.contract_value }}
                                                         </td>
-                                                        <td>
-                                                            {{ data.guaranteed_value }}
-                                                        </td>
+                                                        {% comment %} <td>
+                                                            <a href="{% url 'Create_form_contract' data.id %}" type="button" class="btn btn-outline-success">Hợp đồng</a>
+                                                        </td> {% endcomment %}
                                                         <td>
                                                             <a href="{% url 'update_contract_form' data.id %}" class="me-3 text-primary" data-bs-placement="top" title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                             <a href="#deletecontractform-{{data.id}}" class="text-danger" data-bs-toggle="modal" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="mdi mdi-trash-can font-size-18"></i></a>

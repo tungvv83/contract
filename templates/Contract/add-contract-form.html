@@ -69,7 +69,7 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">Loại Hợp đồng</label>
-                                                        <select class="form-select" name="typecontract">
+                                                        <select class="form-control selectpicker" data-live-search="true" name="typecontract">
                                                             <option selected disabled value="">Choose...</option>
                                                             {% for i in typecontract_list %}
                                                             <option value="{{i.id}}">{{i.name}}</option>
@@ -80,8 +80,8 @@
 
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="validationCustom03" class="form-label">Người đại diện</label>
-                                                        <select class="form-select" id="validationCustom03" name="director">
+                                                        <label class="form-label">Người đại diện</label>
+                                                        <select class="form-control selectpicker" data-live-search="true" name="director">
                                                             <option selected disabled value="">Choose...</option>
                                                             {% for i in director_list %}
                                                             <option value="{{i.id}}">{{i.name}}</option>
@@ -91,8 +91,8 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="validationCustom03" class="form-label">Khách hàng</label>
-                                                        <select class="form-select" id="validationCustom03" name="customer">
+                                                        <label class="form-label">Khách hàng</label>
+                                                        <select class="form-control selectpicker" data-live-search="true" name="customer">
                                                             <option selected disabled value="">Choose...</option>
                                                             {% for i in customer_list %}
                                                             <option value="{{i.id}}">{{i.name}}</option>
@@ -116,8 +116,8 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="validationCustom03" class="form-label">Trạng thái hợp đồng</label>
-                                                        <select class="form-select" id="validationCustom03" name="status">
+                                                        <label class="form-label">Trạng thái hợp đồng</label>
+                                                        <select class="form-control selectpicker" data-live-search="true" name="status">
                                                             <option selected disabled value="">Choose...</option>
                                                             {% for i in status_list %}
                                                             <option value="{{i.id}}">{{i.name}}</option>
@@ -127,8 +127,8 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="validationCustom03" class="form-label">Sản phẩm</label>
-                                                        <select class="form-select" id="validationCustom03" name="pricelist">
+                                                        <label class="form-label">Sản phẩm</label>
+                                                        <select class="form-control selectpicker" data-live-search="true" name="pricelist">
                                                             <option selected disabled value="">Choose...</option>
                                                             <option value=""></option>
                                                         </select>

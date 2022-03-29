@@ -1,6 +1,6 @@
 {% extends 'partials/base.html' %}
 {% load static %}
-{% block title %}Quản lý hợp đồng{% endblock title %}
+{% block title %}Người đại diện{% endblock title %}
 
 {% block extra_css %}
      <!-- DataTables -->
@@ -8,6 +8,7 @@
      <!-- Responsive datatable examples -->
      <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
      <!-- Latest compiled and minified CSS -->
+
     
 {% endblock extra_css %}
 
@@ -49,7 +50,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Công ty</label>
-                                                <select class="form-select" name="customer" required>
+                                                <select class="form-control selectpicker" name="customer" data-live-search="true" required>
                                                     <option selected disabled value="">Choose...</option>
                                                     {% for i in customer_list %}
                                                     <option value="{{i.id}}">{{i.name}}</option>
@@ -280,7 +281,6 @@
     <!-- Responsive examples -->
     <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
-
     <script src="{% static 'js/pages/ecommerce-datatables.init.js' %}"></script>
 
     {% endblock extra_javascript %}
