@@ -5,7 +5,7 @@ from layouts import urls
 import contract, customer, e_mail
 from django.contrib import admin
 from django.urls import path,include
-from django.conf.urls import include, url
+# from django.conf.urls import include, url
 from morvin import views
 from django.views.generic import TemplateView
 from .views import MyPasswordSetView ,MyPasswordChangeView

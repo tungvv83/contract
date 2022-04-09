@@ -1,16 +1,19 @@
 from email import message
+from ntpath import join
 from pyexpat import model
 from unicodedata import name
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from venv import create
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from sqlalchemy import true
 
 from customer.models import customer, director
-from .models import contract, typecontract, status, contractform, annex
+from .models import contract, typecontract, status, contractform, annex,contract_delegation
 
 # Create your views here.
 ############ Contract ############
@@ -375,4 +378,63 @@ class annex_Delete(LoginRequiredMixin,DeleteView):
         if self.request.user == post.user:
             return True
         return False
+
+class decentralization():
+    # create data
+    def api_decentralization(request,id_contract,id_user):
+        if request.method == 'POST':
+            check_data = contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).values()
+            if check_data:
+                return JsonResponse({'message':'The user has permission'})
+            else:
+                contractDelegation = contract_delegation.objects.create(id_user=id_user,id_contract=id_contract,permission=True)
+                contractDelegation.save()
+                return JsonResponse({'status':200,'message':'successful'})
+        else:
+            return JsonResponse({'status':401,'message':'Not found'})
+    # get all data
+    def get_all_contract_by_user_id(request,id_user):
+        if request.method == 'POST':
+            data = contract_delegation.objects.filter(id_user=id_user).values()
+            data_contract = []
+            for item in data:
+                if item['permission'] == True:
+                    data_contract.append({'id_contract':item['id_contract'],'created':item['created']})
+            return JsonResponse({'data':list(data_contract)})
+        else:
+            return JsonResponse({'status':401,'message':'Not found'})
+    # cancel contract
+    def cancel_contract(request,id_contract,id_user):
+        if request.method == 'POST':
+            check_data = contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).values()
+            if check_data:
+                contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).update(permission=False)
+                return JsonResponse({'status':200,'message':'successful'})
+            else:
+                return JsonResponse({'status':401,'message':'Not found'})
+        else:
+            return JsonResponse({'status':401,'message':'Not found'})
+    #active contract
+    def active_contract(request,id_contract,id_user):
+        if request.method == 'POST':
+            check_data = contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).values()
+            if check_data:
+                contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).update(permission=True)
+                return JsonResponse({'status':200,'message':'successful'})
+            else:
+                return JsonResponse({'status':401,'message':'Not found'})
+        else:
+            return JsonResponse({'status':401,'message':'Not found'})
+
+    def get_only_contract_by_id(request,id_contract):
+        if request.method =='GET':
+            contract_data = contract.objects.filter(id=id_contract).values()
+            if contract_data:
+                return JsonResponse({'status':200,'data':list(contract_data)[0]})
+            else:
+                return JsonResponse({'status':401,'message':'Not found'})
+        else:
+            return JsonResponse({'status':401,'message':'Not found'})
+
+
     

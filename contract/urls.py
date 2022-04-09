@@ -1,5 +1,7 @@
+import re
 from django.urls import path
-from .views import Contract_view, contract_form_view, status_view, StatusCreate, StatusUpdate, StatusDelete, Type_contract, Create_type_contract, Update_type_contract, Type_contract_Delete, Create_contract, Update_contract, contract_Delete, ContractDetailView, Create_contract_form, ContracformtDetailView, Update_contract_form, contract_form_Delete, Annex_view, Create_Annex, annextDetailView, Update_annex, annex_Delete
+from requests import request
+from .views import Contract_view, contract_form_view, status_view, StatusCreate, StatusUpdate, StatusDelete, Type_contract, Create_type_contract, Update_type_contract, Type_contract_Delete, Create_contract, Update_contract, contract_Delete, ContractDetailView, Create_contract_form, ContracformtDetailView, Update_contract_form, contract_form_Delete, Annex_view, Create_Annex, annextDetailView,Update_annex, annex_Delete,decentralization
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
@@ -29,6 +31,17 @@ urlpatterns = [
     path('type_contract/create>', Create_type_contract.as_view(), name='Create-type-contract'),
     path('type_contract/<int:pk>/update', Update_type_contract.as_view(), name='update-type-contract'),
     path('type_contract/<int:pk>/delete', Type_contract_Delete.as_view(), name='delete-type-contract'),
+    #new api
+    path('decentralization/<int:id_contract>/<int:id_user>',decentralization.api_decentralization,name="decentralization"),
+    path('get_all_contract/<int:id_user>',decentralization.get_all_contract_by_user_id,name="get_all_contract_by_user_id"),
+    path('cancel/<int:id_contract>/<int:id_user>',decentralization.cancel_contract,name="cancel_contract"),
+    path('active/<int:id_contract>/<int:id_user>',decentralization.active_contract,name="active_contract"),
+    path('getOnly/<int:id_contract>',decentralization.get_only_contract_by_id,name="get_only_contract_by_id"),
+
+
+
+
+
 
 ]
 if settings.DEBUG:

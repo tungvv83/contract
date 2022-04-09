@@ -7,6 +7,7 @@ from unicodedata import name
 from venv import create
 from django.db import models
 from django.urls import reverse
+from requests import delete
 from sqlalchemy import false, null, true
 from customer.models import customer, director
 from django.conf.urls.static import static
@@ -140,6 +141,13 @@ class annex(models.Model):
 
     def get_absolute_url(self):
         return reverse('annex-detail', kwargs={'pk': self.pk})
+
+class contract_delegation(models.Model):
+    id_user = models.IntegerField()
+    id_contract = models.IntegerField()
+    permission = models.BooleanField(default=true)
+    created = models.DateTimeField(auto_now_add=true)
+
 
 
 
