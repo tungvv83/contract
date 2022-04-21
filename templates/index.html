@@ -1,178 +1,174 @@
-{% extends 'partials/base.html' %}
-{% load static %}
+{% extends 'partials/base.html' %} {% load static %} {% block title %}Trang chủ{% endblock title %} {% block extra_css %}
+<!-- DataTables -->
+<link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
 
-{% block title %}Trang chủ{% endblock title %}
-
-{% block extra_css %}
-    <!-- DataTables -->
-    <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
-
-    <!-- Responsive datatable examples -->
-    <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
-{% endblock extra_css %}
-
-{% block content %}
-        <div class="main-content">
-            <div class="page-content">
-                <!-- start page title -->
-                <div class="page-title-box">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-sm-6">
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="float-end d-none d-sm-block">
-                                    <a href="{% url 'create_contract' %}" class="btn btn-success">Thêm Hợp đồng</a>
-                                </div>
-                            </div>
+<!-- Responsive datatable examples -->
+<link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" /> {% endblock extra_css %} {% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <!-- start page title -->
+        <div class="page-title-box">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="float-end d-none d-sm-block">
+                            {% if user.is_staff == True %}
+                            <a href="{% url 'group_create' %}" class="btn btn-success">Thêm Nhóm </a> {% endif %}
+                            <a href="{% url 'create_contract' %}" class="btn btn-success">Thêm Hợp đồng</a>
                         </div>
+
                     </div>
                 </div>
-                <!-- end page title -->
-                <div class="container-fluid">
-                    <div class="page-content-wrapper">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <p class="font-size-16">Hợp đồng</p>
-                                            <div class="mini-stat-icon mx-auto mb-4 mt-3">
-                                                <span class="avatar-title rounded-circle bg-soft-primary">
+            </div>
+        </div>
+        <!-- end page title -->
+        <div class="container-fluid">
+            <div class="page-content-wrapper">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p class="font-size-16">Hợp đồng</p>
+                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                        <span class="avatar-title rounded-circle bg-soft-primary">
                                                     <i class="mdi"><img src="{% static 'images/hopdong2.png' %}" alt="" height="40" width="40"></i>
                                                 </span>
-                                            </div>
-                                            <h5 class="font-size-22">58</h5>
-                                            <div class="progress mt-3" style="height: 4px;">
-                                                <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <h5 class="font-size-22">58</h5>
+                                    <div class="progress mt-3" style="height: 4px;">
+                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
                                     </div>
                                 </div>
-                              </div>
-                              <div class="col-lg-3 col-md-6 col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <p class="font-size-16">Phụ lục hợp đồng</p>
-                                            <div class="mini-stat-icon mx-auto mb-4 mt-3">
-                                                <span class="avatar-title rounded-circle bg-soft-primary">
-                                                    <i class="mdi"><img src="{% static 'images/hopdong3.png' %}" alt="" height="40" width="40"></i>
-                                                </span>
-                                            </div>
-                                            <h5 class="font-size-22">58</h5>
-                                            <div class="progress mt-3" style="height: 4px;">
-                                                <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="col-lg-3 col-md-6 col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <p class="font-size-16">Đã hoàn thành</p>
-                                            <div class="mini-stat-icon mx-auto mb-4 mt-3">
-                                                <span class="avatar-title rounded-circle bg-soft-primary">
-                                                    <i class="mdi"><img src="{% static 'images/hopdong1.png' %}" alt="" height="40" width="40"></i>
-                                                </span>
-                                            </div>
-                                            <h5 class="font-size-22">58</h5>
-                                            <div class="progress mt-3" style="height: 4px;">
-                                                <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="col-lg-3 col-md-6 col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <p class="font-size-16">Chưa hoàn thành</p>
-                                            <div class="mini-stat-icon mx-auto mb-4 mt-3">
-                                                <span class="avatar-title rounded-circle bg-soft-primary">
-                                                    <i class="mdi"><img src="{% static 'images/hopdong4.png' %}" alt="" height="40" width="40"></i>
-                                                </span>
-                                            </div>
-                                            <h5 class="font-size-22">58</h5>
-                                            <div class="progress mt-3" style="height: 4px;">
-                                                <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title">Danh sách hợp đồng</h4>
-                                        <p class="card-title-desc"></p>
-                                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                            <thead>
-                                            <tr>
-                                                <th>Số hợp đồng</th>
-                                                <th>Trích yếu</th>
-                                                <th>Ngày ký</th>
-                                                <th>Ngày hiệu lực</th>
-                                                <th>Loại hợp đồng</th>
-                                                <th>Khách hàng</th>
-                                                <th>Giá trị hợp đồng</th>
-                                                <th>Bảo lãnh hợp đồng</th>                                      
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for data in contract_list %}
-                                                <tr>
-                                                    <td><a href="javascript: void(0);" class="text-dark fw-bold">{{ data.name }}</a></td>
-                                                    <td>{{ data.abstract }}</td>
-                                                    <td>{{ data.signing_date|date:"d/m/yy" }}</td>
-                                                    <td>{{ data.value_date|date:"d/m/yy" }}</td>
-                                                    <td>{{ data.typecontract }}</td>
-                                                    <td>{{ data.customer }}</td>
-                                                    <td>{{ data.contract_value }}</td>
-                                                    <td>{{ data.guaranteed_value }}</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p class="font-size-16">Phụ lục hợp đồng</p>
+                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                        <span class="avatar-title rounded-circle bg-soft-primary">
+                                                    <i class="mdi"><img src="{% static 'images/hopdong3.png' %}" alt="" height="40" width="40"></i>
+                                                </span>
+                                    </div>
+                                    <h5 class="font-size-22">58</h5>
+                                    <div class="progress mt-3" style="height: 4px;">
+                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p class="font-size-16">Đã hoàn thành</p>
+                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                        <span class="avatar-title rounded-circle bg-soft-primary">
+                                                    <i class="mdi"><img src="{% static 'images/hopdong1.png' %}" alt="" height="40" width="40"></i>
+                                                </span>
+                                    </div>
+                                    <h5 class="font-size-22">58</h5>
+                                    <div class="progress mt-3" style="height: 4px;">
+                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p class="font-size-16">Chưa hoàn thành</p>
+                                    <div class="mini-stat-icon mx-auto mb-4 mt-3">
+                                        <span class="avatar-title rounded-circle bg-soft-primary">
+                                                    <i class="mdi"><img src="{% static 'images/hopdong4.png' %}" alt="" height="40" width="40"></i>
+                                                </span>
+                                    </div>
+                                    <h5 class="font-size-22">58</h5>
+                                    <div class="progress mt-3" style="height: 4px;">
+                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- container-fluid -->
             </div>
-            <!-- End Page-content -->
-{% endblock content %}
-{% block extra_javascript %}
-    <!-- apexcharts -->
-    <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
-    <!-- Plugins js-->
-    <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
-    <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
-    {% comment %} <script src="{% static 'js/pages/dashboard.init.js' %}"></script> {% endcomment %}
-    <!-- Required datatable js -->
-    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-    <!-- Buttons examples -->
-    <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'libs/jszip/dist/jszip.min.js' %}"></script>
-    <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
-    <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
-    <!-- Responsive examples -->
-    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
-    <!-- Datatable init js -->
-    <script src="{% static 'js/pages/datatables.init.js' %}"></script> 
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title">Danh sách hợp đồng</h4>
+                            <p class="card-title-desc"></p>
+                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Số hợp đồng</th>
+                                        <th>Trích yếu</th>
+                                        <th>Ngày ký</th>
+                                        <th>Ngày hiệu lực</th>
+                                        <th>Loại hợp đồng</th>
+                                        <th>Khách hàng</th>
+                                        <th>Giá trị hợp đồng</th>
+                                        <th>Bảo lãnh hợp đồng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in contract_list %}
+                                    <tr>
+                                        <td><a href="javascript: void(0);" class="text-dark fw-bold">{{ data.name }}</a></td>
+                                        <td>{{ data.abstract }}</td>
+                                        <td>{{ data.signing_date|date:"d/m/yy" }}</td>
+                                        <td>{{ data.value_date|date:"d/m/yy" }}</td>
+                                        <td>{{ data.typecontract }}</td>
+                                        <td>{{ data.customer }}</td>
+                                        <td>{{ data.contract_value }}</td>
+                                        <td>{{ data.guaranteed_value }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock content %} {% block extra_javascript %}
+<!-- apexcharts -->
+<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+<!-- Plugins js-->
+<script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
+{% comment %}
+<script src="{% static 'js/pages/dashboard.init.js' %}"></script> {% endcomment %}
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/dist/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
 {% endblock extra_javascript %}

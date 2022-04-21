@@ -141,12 +141,28 @@ class annex(models.Model):
 
     def get_absolute_url(self):
         return reverse('annex-detail', kwargs={'pk': self.pk})
-
+# phân quyền hợp đồng
+# id_user,  id_contract, permission, group, created
 class contract_delegation(models.Model):
+    class Meta:
+        ordering = ['created']
     id_user = models.IntegerField()
     id_contract = models.IntegerField()
     permission = models.BooleanField(default=true)
+    group = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=true)
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse('contract-delegation', kwargs={'pk': self.pk})
+#nhóm làm việc giữa các thành viên
+class groupModel(models.Model):
+    NameGroup = models.CharField(max_length=255)
+    Member = models.JSONField()
+    createByUserId = models.IntegerField(default=0)
+    Created = models.DateTimeField(auto_now_add=true)
+
 
 
 

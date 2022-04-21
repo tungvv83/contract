@@ -1,6 +1,7 @@
 from email import message
 from ntpath import join
 from pyexpat import model
+from tokenize import group
 from unicodedata import name
 from venv import create
 from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
@@ -13,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from sqlalchemy import true
 
 from customer.models import customer, director
-from .models import contract, typecontract, status, contractform, annex,contract_delegation
+from .models import contract, typecontract, status, contractform, annex,contract_delegation,groupModel
 
 # Create your views here.
 ############ Contract ############
@@ -381,13 +382,13 @@ class annex_Delete(LoginRequiredMixin,DeleteView):
 
 class decentralization():
     # create data
-    def api_decentralization(request,id_contract,id_user):
+    def api_decentralization(request,id_contract,id_user,group):
         if request.method == 'POST':
             check_data = contract_delegation.objects.filter(id_user=id_user,id_contract=id_contract).values()
             if check_data:
-                return JsonResponse({'message':'The user has permission'})
+                return JsonResponse({'status':401,'message':'The user has permission'})
             else:
-                contractDelegation = contract_delegation.objects.create(id_user=id_user,id_contract=id_contract,permission=True)
+                contractDelegation = contract_delegation.objects.create(id_user=id_user,id_contract=id_contract,group=group,permission=True)
                 contractDelegation.save()
                 return JsonResponse({'status':200,'message':'successful'})
         else:
@@ -436,5 +437,32 @@ class decentralization():
         else:
             return JsonResponse({'status':401,'message':'Not found'})
 
+class group_s():
+    def create(request):
+        iduser = request.POST['userid']
+        nameGroup = request.POST['nameGroup']
+        member = []
+        data = groupModel.objects.create(NameGroup=nameGroup,Member=member,createByUserId=int(iduser))
+        data.save()
+        record = data.id
+        return JsonResponse({'status':200,'message':'successful','id':record})
+    def getGroup(request):
+        idUser = request.POST['userid']
+        data = groupModel.objects.filter(createByUserId=int(idUser)).values()
+        return JsonResponse({'status':200,'message':list(data)})
 
     
+class Create_group(LoginRequiredMixin,CreateView):
+    template_name = 'group/index.html'
+    model = contract
+    fields = '__all__'
+    success_url = reverse_lazy('contract')
+class detail_group(LoginRequiredMixin,CreateView):
+    template_name = 'group/detail.html'
+    model = contract
+    fields = '__all__'
+    success_url = reverse_lazy('contract')
+
+   
+    
+   
