@@ -42,6 +42,16 @@ urlpatterns = [
 
     path('createGroup',group_s.create,name="createGroup"),
     path('getGroup',group_s.getGroup,name="getGroup"),
+    path('getDataOneGroup',group_s.getDataOneGroup,name="getDataOneGroup"),
+    path('Addmember',group_s.Addmember,name="Addmember"),
+    path('getAllAccount',group_s.getAllAccount,name="getAllAccount"),
+    path('getAllContract',group_s.getAllContract,name="getAllContract"),
+    path('getAllContractGroupById',group_s.getAllContractGroupById,name="getAllContractGroupById"),
+    
+    # Addcontract
+    path('Addcontract',group_s.Addcontract,name="Addcontract"),
+    path('GetAllTypeContract',group_s.GetAllTypeContract,name="GetAllTypeContract"),
+
 
 
     #create group

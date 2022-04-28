@@ -72,7 +72,7 @@
                             nameGroup: name_input
                         },
                         success: (data) => {
-                            window.location.replace('/contract/detail/group')
+                            window.location.replace(`${window.location.origin}/contract/detail/group?id=${data['id']}`)
                         },
                         error: (err) => {
                             console.log(err);

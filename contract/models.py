@@ -1,4 +1,5 @@
 from dataclasses import field
+from email.policy import default
 from enum import auto
 from re import U
 from tkinter.messagebox import NO
@@ -160,6 +161,7 @@ class contract_delegation(models.Model):
 class groupModel(models.Model):
     NameGroup = models.CharField(max_length=255)
     Member = models.JSONField()
+    Contract = models.JSONField(default=[])
     createByUserId = models.IntegerField(default=0)
     Created = models.DateTimeField(auto_now_add=true)
 

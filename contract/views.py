@@ -11,10 +11,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from sqlalchemy import true
+from sqlalchemy import false, true
 
 from customer.models import customer, director
-from .models import contract, typecontract, status, contractform, annex,contract_delegation,groupModel
+from .models import contract, typecontract, status, contractform, annex,contract_delegation,groupModel,User
 
 # Create your views here.
 ############ Contract ############
@@ -442,7 +442,8 @@ class group_s():
         iduser = request.POST['userid']
         nameGroup = request.POST['nameGroup']
         member = []
-        data = groupModel.objects.create(NameGroup=nameGroup,Member=member,createByUserId=int(iduser))
+        contract = []
+        data = groupModel.objects.create(NameGroup=nameGroup,Member=member,createByUserId=int(iduser),Contract=contract)
         data.save()
         record = data.id
         return JsonResponse({'status':200,'message':'successful','id':record})
@@ -450,6 +451,75 @@ class group_s():
         idUser = request.POST['userid']
         data = groupModel.objects.filter(createByUserId=int(idUser)).values()
         return JsonResponse({'status':200,'message':list(data)})
+    def getDataOneGroup(request):
+        idGroup = request.POST['id']
+        data = groupModel.objects.filter(id=idGroup).values()
+        return JsonResponse({'status':200,'message':list(data)[0]})
+    def Addmember(request):
+        id = request.POST['id']
+        idmember = request.POST['idMember']
+        name = request.POST['name']
+        data =list(groupModel.objects.filter(id=id).values())[0]
+        ListMember = data['Member']
+        dk = False
+        for item in ListMember:
+            if int(item['id']) == int(idmember):
+               dk = True
+               break
+        if dk == True:
+            return JsonResponse({'status':400,'message':'Thành viên đã được thêm'})
+        else: 
+            ListMember.append({'id':int(idmember),'name':name})
+            groupModel.objects.filter(id=id).update(Member=ListMember)
+            return JsonResponse({'status':200,'message':'Thêm thành công'})
+    def Addcontract(request):
+        id = request.POST['id']
+        idcontract = request.POST['idContract']
+        data =list(groupModel.objects.filter(id=id).values())[0]
+        ListContract = data['Contract']
+        dk = False
+        for item in ListContract:
+            if int(item['id']) == int(idcontract):
+               dk = True
+               break
+        if dk == True:
+            return JsonResponse({'status':400,'message':'Hợp đồng đã có'})
+        else: 
+            ListContract.append({'id':int(idcontract)})
+            groupModel.objects.filter(id=id).update(Contract=ListContract)
+            return JsonResponse({'status':200,'message':'Chia sẻ thành công'})
+    def getAllAccount(request):
+        data = list(User.objects.filter().values())
+        record = []
+        for item in data:
+            if item['is_staff'] == False:
+                record.append({'id':item['id'],'username': item['username']})
+
+        return JsonResponse({'status':200,'data':record})
+    def getAllContract(request):
+        data = list(contract.objects.filter().values())
+        record = []
+        for item in data:
+            record.append({'id':item['id'],'name':item['name']})
+        return JsonResponse({"status":200,'data':record})
+    def GetAllTypeContract(request):
+        data = list(typecontract.objects.filter().values())
+        record = []
+        for item in data:
+            record.append({'id':item['id'],'name':item['name']})
+        return JsonResponse({'status':200,'data':record})
+    def getAllContractGroupById(request):
+        id = request.POST['id']
+        record = []
+        data = list(contract.objects.filter(typecontract_id=id).values())
+        for item in data:
+            name_contract = list(typecontract.objects.filter(id=item['typecontract_id']).values())[0]['name']
+            name_customer = list(customer.objects.filter(id=item['customer_id']).values())[0]['name']
+            btn_edit = '<a href="#" onclick="routerEdit({})" class="me-3 text-primary" data-bs-placement="top" title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>'.format(item['id'])
+            btn_delete = '<a href="#deletecontract-{}" class="text-danger" data-bs-toggle="modal" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="mdi mdi-trash-can font-size-18"></i></a>'.format(item['id'])
+            record.append([item['abstract'],item['signing_date'].strftime("%d/%m/%Y"),item['value_date'].strftime("%d/%m/%Y"),name_contract,name_customer,item['contract_value'],item['guaranteed_value'],btn_edit,btn_delete])
+        return JsonResponse({'status':200,'data':record})
+
 
     
 class Create_group(LoginRequiredMixin,CreateView):

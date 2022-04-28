@@ -1,15 +1,265 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'partials/base.html' %} {% load static %} {% block title %}Nhóm{% endblock title %} {% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <!-- start page title -->
+        <div class="page-title-box">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="float-end d-none d-sm-block">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <div class="container-fluid">
+            <div class="page-content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title"><span id="nameGroup"></span> </h4>
+                                <h4 class="header-title">Số lượng thành viên: <span id="Member"></span> </h4>
+                                <p class="card-title-desc"></p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+                                {% csrf_token %}
+                                <!-- <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Tên nhóm</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Tên nhóm" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="button" onclick="getUser()" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary waves-effect waves-light me-1">
+                                               Thêm thành viên
+                                            </button>
+                                        <button type="button" onclick="getContract()" data-bs-toggle="modal" data-bs-target="#contract" class="btn btn-primary waves-effect waves-light me-1">
+                                                Chia sẻ hợp đồng
+                                            </button>
+                                    </div>
+                                </div>
 
-<body>
-    hello
-</body>
+                                <span id="iduser" style="display: none;"> {{user.id}}</span>
 
-</html>
+                                <div class="row mt-5">
+                                    <div class="col-md-6" style="height: 300px; overflow-y: scroll;">
+                                        <h5>Danh sách thành viên</h5>
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                ${element['username']}
+                                                <button type="button" class="btn btn-danger waves-effect waves-light me-1">
+                                                    Xóa
+                                                 </button>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6" style="height: 300px; overflow-y: scroll;">
+                                        <h5>Danh sách hợp đồng chia sẻ</h5>
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                ${element['username']}
+                                                <button type="button" class="btn btn-danger waves-effect waves-light me-1">
+                                                    Xóa
+                                                 </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- add member -->
+        <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Thêm thành viên</h5>
+                        <button type="button" onclick="close()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="text-align: center;" id="mess"></h5>
+                        <ul class="list-group" id="member_data" style="height: 300px; overflow-y: scroll;">
+
+
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="close()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add contract -->
+        <div class="modal fade " id="contract" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Thêm hợp đồng chia sẻ</h5>
+                        <button type="button" onclick="close()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="text-align: center;" id="mess1"></h5>
+                        <ul class="list-group" id="contract_data" style="height: 300px; overflow-y: scroll;">
+
+
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="close()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page-content -->
+        {% endblock content %} {% block extra_javascript %}
+        <script src="{% static 'libs/parsleyjs/dist/parsley.min.js' %}"></script>
+        <script src="{% static 'libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+        <!-- form mask -->
+        <script src="{% static 'libs/inputmask/dist/jquery.inputmask.min.js' %}"></script>
+        <!-- form mask init -->
+        <script src="{% static 'js/pages/form-mask.init.js' %}"></script>
+
+        <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            $.ajax({
+                url: `${window.location.origin}/contract/getDataOneGroup`,
+                method: 'POST',
+                data: {
+                    id: id
+                },
+                success: (res) => {
+                    $('#nameGroup').text(`${res['message']['NameGroup']}`)
+                    $('#Member').text(`${res['message']['Member'].length}`) sqd
+                    console.log(res);
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+
+            function getUser() {
+                $.ajax({
+                    url: `${window.location.origin}/contract/getAllAccount`,
+                    method: 'GET',
+
+                    success: (res) => {
+                        item = ''
+                        res['data'].forEach(element => {
+                            item +=
+                                `
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                ${element['username']}
+                                <button type="button" onclick="addMember(${element['id']},'${element['username']}')" class="btn btn-primary waves-effect waves-light me-1">
+                                    Thêm
+                                 </button>
+                            </li>
+                            `
+
+                        });
+                        $('#member_data').html(item)
+
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            }
+
+            function addMember(idmember, name) {
+                $.ajax({
+                    url: `${window.location.origin}/contract/Addmember`,
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        idMember: idmember,
+                        name: name
+                    },
+                    success: (res) => {
+                        $('#mess').text(`${res['message']}`)
+                        setTimeout(() => {
+                            $('#mess').text(``)
+                        }, 3000)
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+
+            }
+            //-------------------------------------------------------
+
+            function getContract() {
+                $.ajax({
+                    url: `${window.location.origin}/contract/getAllContract`,
+                    method: 'GET',
+                    success: (res) => {
+                        item = ''
+                        res['data'].forEach(element => {
+                            item +=
+                                `
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                ${element['name']}
+                                <button type="button" onclick="addContract(${element['id']})" class="btn btn-primary waves-effect waves-light me-1">
+                                    Thêm
+                                 </button>
+                            </li>
+                            `
+
+                        });
+                        $('#contract_data').html(item)
+
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            }
+
+            function addContract(idContract) {
+                $.ajax({
+                    url: `${window.location.origin}/contract/Addcontract`,
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        idContract: idContract
+                    },
+                    success: (res) => {
+                        $('#mess1').text(`${res['message']}`)
+                        setTimeout(() => {
+                            $('#mess1').text(``)
+                        }, 3000)
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+
+            }
+
+            function close() {
+                window.location.reload(true)
+            }
+        </script>
+
+        {% endblock extra_javascript %}

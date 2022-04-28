@@ -81,9 +81,8 @@
                 userid: userid
             },
             success: (res) => {
-                console.log(res);
                 res['message'].forEach(element => {
-                    item = `<li><a href="/contract/group?id=${element['id']}">${element['NameGroup']}</a></li>`
+                    item = `<li><a href="#" onclick="router(${element['id']})">${element['NameGroup']}</a></li>`
                     $('#group_index').append(item)
                 });
             },
@@ -91,6 +90,28 @@
                 console.log(err);
             }
         })
+
+        $.ajax({
+            url: `${host}/contract/GetAllTypeContract`,
+            method: 'GET',
+            success: (res) => {
+                res['data'].forEach(element => {
+                    item = `<li><a href="#" onclick="router_contract(${element['id']},'${element['name']}')">${element['name']}</a></li>`
+                    $('#data_contract').append(item)
+                });
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+
+        function router(id) {
+            window.location.replace(`${window.location.origin}/contract/detail/group?id=${id}`)
+        }
+
+        function router_contract(id, name) {
+            window.location.replace(`${window.location.origin}/contract/contract?id=${id}&name=${name}`)
+        }
     </script>
 
     {% block extra_javascript %} {% endblock extra_javascript %}
