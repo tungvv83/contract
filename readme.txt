@@ -59,6 +59,7 @@ django-bootstrap-modal-forms
 ->pip install django-embed-video
 ->pip install django-crispy-forms
 ->pip install django-allauth
+->pip install -U django-jazzmin
 
 >>>Nodejs
 ->Make sure to have the Node.js installed & running in your computer
